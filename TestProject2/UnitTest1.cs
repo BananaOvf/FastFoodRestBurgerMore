@@ -1,0 +1,21 @@
+using FastFoodRest;
+using NUnit.Framework;
+
+namespace TestProject2
+{
+    [TestFixture]
+    public class Tests
+    {
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
+        public void Test1()
+        {
+            string login = "admin";
+            Assert.That(login, Is.EqualTo(App.adminLogin));
+        }
+    }
+}

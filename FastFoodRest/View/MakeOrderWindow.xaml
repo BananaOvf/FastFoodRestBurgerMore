@@ -1,0 +1,235 @@
+﻿<Window x:Class="FastFoodRest.View.MakeOrderWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:wfi="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+     xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:FastFoodRest.View" xmlns:dvc="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
+        mc:Ignorable="d"
+    WindowStartupLocation="CenterScreen"
+    Title="BurgerMore" MinHeight="460" MinWidth="950" Height="600" Width="950" MaxWidth="950">
+    <Grid>
+
+        <!--Фоновое изображение-->
+        <Grid.Background>
+            <ImageBrush ImageSource="../Resources/Background.jpg"/>
+        </Grid.Background>
+
+        <!--Общая схема-->
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <!--Шапка-->
+            <Grid Grid.Row="0" Margin="14, 0, 14, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Логотип-->
+                <Grid Grid.Column="0">
+                    <Image Source="..\Resources\Logo.png"
+                    Margin="0, 0, 0, 5"/>
+                </Grid>
+
+                <!--Заголовок-->
+                <Grid Grid.Column="1">
+                    <TextBlock Text="Сделать заказ"
+                        Style="{StaticResource TitleStyle}"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button x:Name="btn_exitMenuFromMakeOrder" Background="#592204" BorderThickness="0"
+                            Style="{StaticResource ButtonTextStyle}"
+                                Click="btn_exitMenuFromMakeOrder_Click" Margin="0, 0, 0, 5">
+                        <Image Width="20" Source="../Resources/ExitMenu.png" Stretch="Uniform"/>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="12"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
+
+            </Grid>
+
+            <!--Пункты меню-->
+            <Grid Grid.Row="1">
+                <!--Оранжевый фон-->
+                <Border Background="#f06b18" CornerRadius="15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="90"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <WindowsFormsHost Margin="8">
+                                    <dvc:Chart x:Name="chartAmount"/>
+                                </WindowsFormsHost>
+
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20, 0, 0, 0">
+                                    <TextBlock x:Name="moneyOnCard" Text="Сумма на карте: " Style="{StaticResource TitleStyle}" FontSize="17"/>
+                                </Grid>
+                                <Grid Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20, 0, 0, 0">
+                                    <TextBlock x:Name="orderAmount" Text="Сумма заказа: " Style="{StaticResource TitleStyle}" FontSize="17"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <ListBox x:Name="categoriesList" Margin="20, 10, 10, 0" Background="#c75a16" BorderThickness="0"
+                                     SelectionChanged="categoriesList_SelectionChanged" Padding="10"
+                                     DisplayMemberPath="CategoryName" SelectedValuePath="CategoryId"
+                                     Style="{StaticResource ListBoxStyle}">
+                                    <ListBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="12"/>
+                                        </Style>
+                                    </ListBox.Resources>
+                                </ListBox>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <ListBox x:Name="productsList" Margin="10, 10, 20, 0" Background="Transparent" BorderThickness="0"
+                                          MinWidth="250" Padding="10" ScrollViewer.CanContentScroll="False"
+                                     Style="{StaticResource ListBoxStyle}" >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0, 0, 0, 10" >
+                                                <Border Background="#c75a16" CornerRadius="15" Padding="20, 10, 20, 10">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="70"/>
+                                                            <ColumnDefinition Width="380"/>
+                                                            <ColumnDefinition Width="98"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Grid Grid.Column="0">
+                                                            <Image Source="../Resources/cross.png" Margin="0, 0, 15, 0"/>
+                                                        </Grid>
+                                                        <Grid Grid.Column="1">
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="{Binding Path=ProductName}"/>
+                                                                <TextBlock>
+                                                                    <Run Text="Стоимость: "/>
+                                                                    <Run Text="{Binding Path=ProductPrice}"/>
+                                                                    <Run Text="₽"/>
+                                                                </TextBlock>
+                                                                <TextBlock>
+                                                                    <Run Text="Скидка: "/>
+                                                                    <Run Text="{Binding Path=ProductDiscount}"/>
+                                                                    <Run Text="%"/>
+                                                                </TextBlock>
+                                                                <TextBlock>
+                                                                    <Run Text="Стоимость со скидкой: "/>
+                                                                    <Run Text="{Binding Path=ProductDiscountPrice}"/>
+                                                                    <Run Text="₽"/>
+                                                                </TextBlock>
+                                                                <TextBlock>
+                                                                    <Run Text="Вес: "/>
+                                                                    <Run Text="{Binding Path=ProductWeight}"/>
+                                                                    <Run Text="г"/>
+                                                                </TextBlock>
+                                                                <TextBlock>
+                                                                    <Run Text="Калорийность: "/>
+                                                                    <Run Text="{Binding Path=ProductCalory}"/>
+                                                                    <Run Text="ккал"/>
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <Grid Grid.Column="2">
+                                                            <Button x:Name="btn_addProduct" Background="#592204" BorderThickness="0"
+                                                                    Style="{StaticResource ButtonTextStyle}" Height="50" VerticalAlignment="Center"
+                                                                    Click="btn_addProduct_Click">
+                                                                <TextBlock Text="Добавить"/>
+                                                                <Button.Resources>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="CornerRadius" Value="12"/>
+                                                                    </Style>
+                                                                </Button.Resources>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="12"/>
+                                        </Style>
+                                    </ListBox.Resources>
+                                </ListBox>
+                            </Grid>
+                            
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Button x:Name="btn_arrangeOrder" Background="#592204" BorderThickness="0"
+                            Style="{StaticResource ButtonTextStyle}"
+                                Click="btn_arrangeOrder_Click" Margin="130, 20, 130, 20">
+                                <TextBlock Text="Оформить заказ"/>
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="12"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!--Подвал-->
+            <Grid Grid.Row="2" Margin="14, 5, 14, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Копирайт-->
+                <Grid Grid.Column="0">
+                    <TextBlock Text="©BurgerMore" FontSize="13"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TitleStyle}"/>
+                </Grid>
+
+                <!--Связь с разработчиком-->
+                <Grid Grid.Column="1">
+                    <TextBlock Text="mburger@gmail.com" FontSize="13"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource TitleStyle}"/>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
